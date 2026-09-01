@@ -37,10 +37,12 @@ INSTRUCTIONS="$PROJECT_DIR/$PROMPT"
 run_out="$PROJECT_DIR/$OUTDIR/$MODEL/seed_$SEED"
 mkdir -p "$run_out"
 
+# Bind our run.py over the container's built-in /opt/run.py so the
+# container runs OUR script (works even on older containers whose runscript
+# always executes /opt/run.py and doesn't support a custom .py argument).
 apptainer run --nv \
-    --bind "$SCRIPT_DIR/run.py:/tmp/run.py" \
+    --bind "$SCRIPT_DIR/run.py:/opt/run.py" \
     "$SIF_PATH" \
-    /tmp/run.py \
     --model "$MODEL" \
     --instructions "$INSTRUCTIONS" \
     --input "$INPUT" \

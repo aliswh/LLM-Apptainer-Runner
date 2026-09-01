@@ -40,8 +40,12 @@ mkdir -p "$run_out"
 # Bind our run.py over the container's built-in /opt/run.py so the
 # container runs OUR script (works even on older containers whose runscript
 # always executes /opt/run.py and doesn't support a custom .py argument).
+# Also bind the host data dirs into the container at the same absolute paths
+# so the input/instructions/output files are visible inside.
 apptainer run --nv \
     --bind "$SCRIPT_DIR/run.py:/opt/run.py" \
+    --bind "$PROJECT_DIR:$PROJECT_DIR" \
+    --bind "$CONTAINER_DIR:$CONTAINER_DIR" \
     "$SIF_PATH" \
     --model "$MODEL" \
     --instructions "$INSTRUCTIONS" \

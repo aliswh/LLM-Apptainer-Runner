@@ -18,7 +18,7 @@ SEED="42"
 PROMPT="example/single-txt/patient_01.txt"
 OUTDIR="results"
 # Where the .sif containers are. Leave empty to use this script's own folder.
-CONTAINER_DIR="\hevesy\student\marccummings\MedGemma-Apptainer-Runner"
+CONTAINER_DIR="/student/marccummings/MedGemma-Apptainer-Runner"
 # ============================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -26,8 +26,10 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 [[ -n "$CONTAINER_DIR" ]] && CONTAINER_DIR="$(cd "$CONTAINER_DIR" && pwd)" || CONTAINER_DIR="$PROJECT_DIR"
 
-SIF_PATH="$CONTAINER_DIR/$MODEL/$MODEL.sif"
-[[ -f "$SIF_PATH" ]] || { echo "ERROR: no container for model '$MODEL' at $SIF_PATH" >&2; exit 1; }
+# Find the .sif file for this model anywhere under CONTAINER_DIR
+# (its folder name may not match the model, e.g. Medgemma/ holds both medgemma sifs)
+SIF_PATH="$(find "$CONTAINER_DIR" -name "$MODEL.sif" -print -quit 2>/dev/null || true)"
+[[ -n "$SIF_PATH" && -f "$SIF_PATH" ]] || { echo "ERROR: no container for model '$MODEL' ($MODEL.sif) under $CONTAINER_DIR" >&2; exit 1; }
 
 INPUT="$PROJECT_DIR/$PROMPT"
 INSTRUCTIONS="$PROJECT_DIR/$PROMPT"
